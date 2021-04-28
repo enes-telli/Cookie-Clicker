@@ -39,7 +39,7 @@ public class CookieClicker extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent e) {
                 cookie++;
                 jLabel1.setText(cookie + " Cookies");
-                enableButtons();
+                toggleBuildingButtons();
             }
         });
     }
@@ -61,23 +61,10 @@ public class CookieClicker extends javax.swing.JFrame {
         timer.start();
     }
     
-    public void enableButtons() {
+    public void toggleBuildingButtons() {
         for (int i = 0; i < buildings.size(); i++)
         {
-            if (cookie >= buildings.get(i).price)
-            {
-                buildingButtons[i].setEnabled(true);
-            }
-        }
-    }
-
-    public void disableButtons() {
-        for (int i = 0; i < buildings.size(); i++)
-        {
-            if (cookie < buildings.get(i).price)
-            {
-                buildingButtons[i].setEnabled(false);
-            }
+            buildingButtons[i].setEnabled((cookie >= buildings.get(i).price) ? true : false);
         }
     }
 
@@ -482,7 +469,7 @@ public class CookieClicker extends javax.swing.JFrame {
     private void CookieLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CookieLabelMouseClicked
         cookie += efficiency;
         jLabel1.setText(cookie + " Cookies");
-        enableButtons();
+        toggleBuildingButtons();
     }//GEN-LAST:event_CookieLabelMouseClicked
 
     private void upgradeLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_upgradeLabel1MouseClicked
@@ -512,7 +499,7 @@ public class CookieClicker extends javax.swing.JFrame {
 
             building.label.setText("[Owned: " + (++building.count) + "]");
 
-            disableButtons();
+            toggleBuildingButtons();
             perSec += building.cps;
             timerUpdate();
             
