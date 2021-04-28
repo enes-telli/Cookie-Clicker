@@ -224,7 +224,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="grandmaLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="[GrandMa] 2 CpS"/>
+            <Property name="text" type="java.lang.String" value="[Grandma] 2 CpS"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="farmLabel">
@@ -468,7 +468,6 @@
         </Container>
         <Component class="javax.swing.JLabel" name="upgradePrice1">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Price: 100 Cookies"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[144, 48]"/>
             </Property>
@@ -482,7 +481,6 @@
         </Component>
         <Component class="javax.swing.JLabel" name="upgradePrice2">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Price: 100 Cookies"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[144, 48]"/>
             </Property>
@@ -496,7 +494,6 @@
         </Component>
         <Component class="javax.swing.JLabel" name="upgradePrice3">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Price: 100 Cookies"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[144, 48]"/>
             </Property>

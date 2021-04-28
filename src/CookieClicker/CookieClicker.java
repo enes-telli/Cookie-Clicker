@@ -1,3 +1,4 @@
+
 package CookieClicker;
 
 import java.util.List;
@@ -5,12 +6,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.Timer;
 
 public class CookieClicker extends javax.swing.JFrame {
 
-    int cookie = 0;
+    int cookie = 111110;
     double perSec = 0;
     int efficiency = 1;
     
@@ -20,17 +22,17 @@ public class CookieClicker extends javax.swing.JFrame {
     
     final double priceMultiplier = 0.15;
     
-    Building cursor;
-    Building grandma;
-    Building farm;
-    Building mine;
+    List<Building> buildings = new ArrayList<>();
+    
+    JButton[] buildingButtons = new JButton[4];
 
     List<Upgrade> allUpgrades = new ArrayList<>();
-    List<Upgrade> currentUpgrades = new ArrayList<>();
+    List<Upgrade> availableUpgrades = new ArrayList<>();
     
     JLabel[] upgradeLabels = new JLabel[4];
     JLabel[] upgradePrices = new JLabel[4];
     
+    // timer tamamen değişecek
     public void setTimer() {
         timer = new Timer(timerSpeed, new ActionListener() {
             @Override
@@ -42,36 +44,6 @@ public class CookieClicker extends javax.swing.JFrame {
         });
     }
 
-    public void enableButtons() {
-        if (cookie >= cursor.price) {
-            cursorButton.setEnabled(true);
-        }
-        if (cookie >= grandma.price) {
-            grandmaButton.setEnabled(true);
-        }
-        if (cookie >= farm.price) {
-            farmButton.setEnabled(true);
-        }
-        if (cookie >= mine.price) {
-            mineButton.setEnabled(true);
-        }
-    }
-
-    public void disableButtons() {
-        if (cookie < cursor.price) {
-            cursorButton.setEnabled(false);
-        }
-        if (cookie < grandma.price) {
-            grandmaButton.setEnabled(false);
-        }
-        if (cookie < farm.price) {
-            farmButton.setEnabled(false);
-        }
-        if (cookie < mine.price) {
-            mineButton.setEnabled(false);
-        }
-    }
-
     public void timerUpdate() {
         if (timerOn == false) {
             timerOn = true;
@@ -80,6 +52,7 @@ public class CookieClicker extends javax.swing.JFrame {
         }
 
         timerSpeed = (int) Math.round(1 / perSec * 1000);
+        System.out.println(timerSpeed);
 
         String CPS = String.format("%.1f", perSec);
         jLabel3.setText(CPS + " CpS");
@@ -87,9 +60,43 @@ public class CookieClicker extends javax.swing.JFrame {
         setTimer();
         timer.start();
     }
+    
+    public void enableButtons() {
+        for (int i = 0; i < buildings.size(); i++)
+        {
+            if (cookie >= buildings.get(i).price)
+            {
+                buildingButtons[i].setEnabled(true);
+            }
+        }
+    }
+
+    public void disableButtons() {
+        for (int i = 0; i < buildings.size(); i++)
+        {
+            if (cookie < buildings.get(i).price)
+            {
+                buildingButtons[i].setEnabled(false);
+            }
+        }
+    }
 
     public CookieClicker() {
         initComponents();
+        
+        buildings.add(new Building("Cursor", 15, 0.2, cursorButton, cursorOwned));
+        buildings.add(new Building("Grandma", 100, 2, grandmaButton, grandmaOwned));
+        buildings.add(new Building("Farm", 1100, 16, farmButton, farmOwned));
+        buildings.add(new Building("Mine", 12000, 94, mineButton, mineOwned));
+        
+        buildingButtons[0] = cursorButton;
+        buildingButtons[1] = grandmaButton;
+        buildingButtons[2] = farmButton;
+        buildingButtons[3] = mineButton;
+        
+        allUpgrades.add(new Upgrade(100, 1, new ImageIcon(getClass().getResource("/images/48cursor1.png"))));
+        allUpgrades.add(new Upgrade(500, 1, new ImageIcon(getClass().getResource("/images/48cursor2.png"))));
+        allUpgrades.add(new Upgrade(10000, 10, new ImageIcon(getClass().getResource("/images/48cursor3.png"))));
         
         upgradeLabels[0] = upgradeLabel1;
         upgradeLabels[1] = upgradeLabel2;
@@ -100,15 +107,6 @@ public class CookieClicker extends javax.swing.JFrame {
         upgradePrices[1] = upgradePrice2;
         upgradePrices[2] = upgradePrice3;
         upgradePrices[3] = upgradePrice4;
-        
-        cursor = new Building(15, 0.2, cursorButton, cursorOwned);
-        grandma = new Building(100, 2, grandmaButton, grandmaOwned);
-        farm = new Building(1100, 16, farmButton, farmOwned);
-        mine = new Building(12000, 94, mineButton, mineOwned);
-        
-        allUpgrades.add(new Upgrade(100, 1, new ImageIcon(getClass().getResource("/images/48cursor1.png"))));
-        allUpgrades.add(new Upgrade(500, 1, new ImageIcon(getClass().getResource("/images/48cursor2.png"))));
-        allUpgrades.add(new Upgrade(10000, 10, new ImageIcon(getClass().getResource("/images/48cursor3.png"))));
     }
 
     @SuppressWarnings("unchecked")
@@ -180,7 +178,7 @@ public class CookieClicker extends javax.swing.JFrame {
 
         cursorLabel.setText("[Cursor] 0.2 CpS");
 
-        grandmaLabel.setText("[GrandMa] 2 CpS");
+        grandmaLabel.setText("[Grandma] 2 CpS");
 
         farmLabel.setText("[Farm] 16 CpS");
 
@@ -368,17 +366,14 @@ public class CookieClicker extends javax.swing.JFrame {
                 .addGap(8, 8, 8))
         );
 
-        upgradePrice1.setText("Price: 100 Cookies");
         upgradePrice1.setMaximumSize(new java.awt.Dimension(144, 48));
         upgradePrice1.setMinimumSize(new java.awt.Dimension(144, 48));
         upgradePrice1.setPreferredSize(new java.awt.Dimension(144, 48));
 
-        upgradePrice2.setText("Price: 100 Cookies");
         upgradePrice2.setMaximumSize(new java.awt.Dimension(144, 48));
         upgradePrice2.setMinimumSize(new java.awt.Dimension(144, 48));
         upgradePrice2.setPreferredSize(new java.awt.Dimension(144, 48));
 
-        upgradePrice3.setText("Price: 100 Cookies");
         upgradePrice3.setMaximumSize(new java.awt.Dimension(144, 48));
         upgradePrice3.setMinimumSize(new java.awt.Dimension(144, 48));
         upgradePrice3.setPreferredSize(new java.awt.Dimension(144, 48));
@@ -469,19 +464,19 @@ public class CookieClicker extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cursorButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cursorButtonMouseClicked
-        BuildingButtonClicked(cursor);
+        BuildingButtonClicked(buildings.get(0));
     }//GEN-LAST:event_cursorButtonMouseClicked
 
     private void grandmaButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_grandmaButtonMouseClicked
-        BuildingButtonClicked(grandma);
+        BuildingButtonClicked(buildings.get(1));
     }//GEN-LAST:event_grandmaButtonMouseClicked
 
     private void farmButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_farmButtonMouseClicked
-        BuildingButtonClicked(farm);
+        BuildingButtonClicked(buildings.get(2));
     }//GEN-LAST:event_farmButtonMouseClicked
 
     private void mineButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mineButtonMouseClicked
-        BuildingButtonClicked(mine);
+        BuildingButtonClicked(buildings.get(3));
     }//GEN-LAST:event_mineButtonMouseClicked
 
     private void CookieLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CookieLabelMouseClicked
@@ -529,9 +524,9 @@ public class CookieClicker extends javax.swing.JFrame {
     
     private void UpgradeButtonClicked(int upgradeCount)
     {
-        if (currentUpgrades.size() > upgradeCount)
+        if (availableUpgrades.size() > upgradeCount)
         {
-            Upgrade upgrade = currentUpgrades.get(upgradeCount);
+            Upgrade upgrade = availableUpgrades.get(upgradeCount);
             
             if (cookie >= upgrade.price)
             {
@@ -539,7 +534,7 @@ public class CookieClicker extends javax.swing.JFrame {
                 jLabel1.setText(cookie + " Cookies");
                 efficiency *= 2;
                 
-                currentUpgrades.remove(upgrade);
+                availableUpgrades.remove(upgrade);
                 
                 UpdateLabels();
             }   
@@ -556,7 +551,7 @@ public class CookieClicker extends javax.swing.JFrame {
             if (building.count >= upgrade.requiredCount && upgrade.locked)
             {
                 upgrade.locked = false;
-                currentUpgrades.add(upgrade);
+                availableUpgrades.add(upgrade);
                 deletedList.add(upgrade);
             }
         }
@@ -569,12 +564,12 @@ public class CookieClicker extends javax.swing.JFrame {
     
     private void UpdateLabels()
     {
-        int min = (currentUpgrades.size() < upgradeLabels.length) ? currentUpgrades.size() : upgradeLabels.length;
+        int min = (availableUpgrades.size() < upgradeLabels.length) ? availableUpgrades.size() : upgradeLabels.length;
         
         for (int i = 0; i < min; i++)
         {
-            upgradeLabels[i].setIcon(currentUpgrades.get(i).icon);
-            upgradePrices[i].setText("Price: " + currentUpgrades.get(i).price + " Cookies");
+            upgradeLabels[i].setIcon(availableUpgrades.get(i).icon);
+            upgradePrices[i].setText("Price: " + availableUpgrades.get(i).price + " Cookies");
         }
         
         for (int i = min; i < upgradeLabels.length; i++)
