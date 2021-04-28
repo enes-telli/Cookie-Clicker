@@ -10,7 +10,7 @@ import javax.swing.Timer;
 
 public class CookieClicker extends javax.swing.JFrame {
 
-    int cookie = 1110;
+    int cookie = 0;
     double perSec = 0;
     int efficiency = 1;
     
