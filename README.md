@@ -1,5 +1,5 @@
 # Cookie Clicker
- Cookie Clicker game made in Java. Currently in the development process.
+ Cookie Clicker game made in Java.
  
  Original game: [Cookie Clicker](https://orteil.dashnet.org/cookieclicker/)
  
